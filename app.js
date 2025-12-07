@@ -59,7 +59,7 @@ if (typeof firebase === 'undefined') {
    Service Worker & FCM setup
    ====================== */
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw.js')
+  navigator.serviceWorker.register('./sw.js')
     .then((registration) => {
       console.log('[App] Service Worker registered:', registration);
       if (messaging && registration) {
