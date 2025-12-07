@@ -13,7 +13,37 @@
 .hidden {
     display: none !important;
 }
+/* --- PRELOADER ANIMATION FIXES --- */
 
+#preloader {
+    /* Set the preloader to cover the entire viewport initially */
+    position: fixed;
+    inset: 0;
+    background: var(--bg); /* Use your background color */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000; /* Ensure it's always on top of everything */
+    
+    /* CRUCIAL FIX: Add the transition property here */
+    transition: opacity 0.5s ease-out; 
+}
+.loader {
+    border: 5px solid #f3f3f3; /* Light grey base circle */
+    border-top: 5px solid var(--accent); /* Accent color on top */
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite; /* Start the animation */
+    margin-bottom: 15px;
+}
+
+/* Keyframes for the Spin Animation */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
 /* App Layout */
 html, body {
     height: 100%;
@@ -49,13 +79,26 @@ body.app-root {
     box-sizing: border-box; 
 }
 #center-title {
-    /* Absolute centering formula */
+   /* Absolute centering formula */
     position: absolute; 
     top: 50%; 
     left: 50%; 
     transform: translate(-50%, -50%); 
     z-index: 5;
+    
+    /* MODIFIED: Add Flexbox for horizontal alignment */
+    display: flex;
+    align-items: center; /* Vertically center the logo and text */
+    justify-content: center; /* Horizontally center the entire block */
     text-align: center; 
+}
+#library-logo {
+    height: 80px; /* Adjust height as needed */
+    width: auto;
+    margin-right: 24px; /* Space between logo and text */
+    
+    /* Ensure the logo color matches if it's monochromatic */
+    /* filter: brightness(0); /* Uncomment if your logo is black and you want to ensure it is the same color as the text */
 }
 
 .library-branding {
@@ -180,12 +223,24 @@ body.app-root {
 
     /* FIX 4: Style the Center Title (Branding) */
     #center-title {
-        position: static; 
-        transform: none; 
-        text-align: center; 
-        width: 100%;
-        margin-top: 5px; /* Small space above the title */
-        order: 1; /* Place the title *after* the date block */
+    position: static; 
+    transform: none; 
+    text-align: center; 
+    width: 100%;
+    margin-top: 5px; 
+    order: 1; 
+    
+    /* CRUCIAL: Re-enable flex layout for logo and text */
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+}
+    /* Adjust logo size on mobile */
+   @media (max-width: 600px) {
+    #library-logo {
+        height: 60px; /* Smaller logo for mobile */
+        margin-right: 16px;
+    }
     }
     .library-branding {
         font-size: 24px; 
