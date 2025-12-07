@@ -48,7 +48,14 @@ body.app-root {
     position: relative; 
     box-sizing: border-box; 
 }
+/* 1. Import the Sansation font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Sansation:wght@400;700&display=swap');
+
+/* 2. Apply the font to your element */
 #center-title {
+    /* Set Sansation as the primary font, with a generic sans-serif fallback */
+    font-family: 'Sansation', sans-serif; 
+    
     /* Absolute centering formula */
     position: absolute; 
     top: 50%; 
@@ -57,7 +64,6 @@ body.app-root {
     z-index: 5;
     text-align: center; 
 }
-
 .library-branding {
     font-family: 'Playfair Display', serif;
     font-size: 32px; 
