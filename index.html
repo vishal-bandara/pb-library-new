@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+<body class="app-root">
+
+    <div id="toast" class="toast"></div>
+
+    <div class="app-wrap">
+        <header class="header header-blur">
+            <div>
+                <p class="day-number" id="day-number">07</p>
+                <p class="date-text" id="date-text">Sunday, December 7, 2025</p>
+                <p id="time-text">11:57:55 AM</p>
+            </div>
+
+            <div id="center-title">
+                <h1 class="library-branding">PEOPLE'S BANK<br>LIBRARY</h1>
+            </div>
+
+            <div class="header-actions">
+                <button class="admin-login-btn" id="admin-login-btn">Admin Login</button>
+            </div>
+        </header>
+
+        <main class="main">
+            <section id="home-view" class="main-view">
+                <div class="section-head">
+                    <h2 class="section-title">New Arrivals</h2>
+                    <button class="view-all-btn">View All </button>
+                </div>
+                <div class="arrivals" id="new-arrivals">
+                    <div class="loading-placeholder">
+                        <div class="ph-card"></div>
+                        <div class="ph-card hidden-on-mobile"></div>
+                        <div class="ph-card hidden-on-mobile"></div>
+                        <div class="ph-card hidden-on-mobile"></div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="search-view" class="main-view hidden">
+                <div class="section-head">
+                    <h2 class="section-title">Search & Explore</h2>
+                </div>
+                
+                <input type="text" id="search-input" placeholder="Search by title or author..."
+                       style="width: 100%; padding: 10px; margin-bottom: 20px; border-radius: 5px; border: 1px solid var(--muted); font-size: 16px;">
+                
+                <div class="arrivals" id="search-results-list">
+                    <p style="text-align: center; color: var(--muted); padding: 20px;">
+                        Start typing above to search the library catalogue.
+                    </p>
+                </div>
+            </section>
+            <section id="notices-view" class="main-view hidden">
+                <div class="section-head">
+                    <h2 class="section-title">Library Notices</h2>
+                </div>
+                <div class="notice-area">
+                    <p style="text-align: center; color: var(--muted); padding: 20px;">Loading notices...</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <nav class="bottom-nav bottom-nav-blur" id="bottom-nav">
+    <button class="nav-btn active" data-view="home">
+        <i class="fas fa-home"></i>
+        <span>Home</span>
+    </button>
+    <button class="nav-btn" data-view="search">
+        <i class="fas fa-search"></i>
+        <span>Search</span>
+    </button>
+    <button class="nav-btn" data-view="notices">
+        <i class="fas fa-bullhorn"></i>
+        <span>Notices</span>
+    </button>
+
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLScD4MBgjJi0P2nsQ5KNh3lIrhI6FE49zUB242vqYKGieG_2UA/viewform"
+        target="_blank"
+        class="nav-btn external-link">
+        <i class="fas fa-user-plus"></i>
+        <span>New Patron</span>
+    </a>
+</nav>
+
+    <div id="login-modal" class="modal hidden">
+        <div class="modal-bg"></div>
+        <div class="modal-panel">
+            <h3 style="margin-top: 0;">Admin Login</h3>
+            <input type="password" id="admin-password" placeholder="Enter Password">
+            <button class="primary" id="login-submit">Login</button>
+            <button class="link" id="login-cancel">Cancel</button>
+        </div>
+    </div>
+
+    <div id="book-detail-modal" class="modal hidden">
+        <div class="modal-bg"></div>
+        <div class="modal-panel book-detail-panel" id="book-detail-panel">
+            </div>
+    </div>
+
+    <div id="reserve-form-modal" class="modal hidden">
+        <div class="modal-bg"></div>
+        <div class="modal-panel">
+            <h3 id="reserve-modal-title">Reserve Book: Title</h3>
+            <input type="hidden" id="book-id-to-reserve">
+            <input type="text" id="reserve-name" placeholder="Your Name" required>
+            <input type="text" id="reserve-contact" placeholder="Email or Phone Number" required>
+            <button class="primary" id="reserve-submit">Confirm Reservation</button>
+            <button class="link" id="reserve-cancel">Cancel</button>
+        </div>
+    </div>
+
+    <div id="admin-panel" class="modal admin-panel hidden">
+        <div class="modal-bg"></div>
+        <div class="admin-panel-inner">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2 style="margin: 0;">Admin Dashboard</h2>
+                <button class="primary" id="admin-logout">Logout</button>
+            </div>
+
+            <div class="admin-section">
+                <h3>Book Management</h3>
+                <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+                    <button class="primary" id="toggle-delete-mode" style="background: #E85D3F;">Delete Book Mode</button>
+                </div>
+
+                <h4>Add New Book</h4>
+                <input type="text" id="add-title" placeholder="Title" required>
+                <input type="text" id="add-author" placeholder="Author" required>
+                <textarea id="add-description" placeholder="Description"></textarea>
+
+                <label for="add-cover-file" class="file-label">
+                    Upload Cover Image (Optional)
+                    <input type="file" id="add-cover-file" accept="image/*">
+                </label>
+                <progress id="upload-progress" class="upload-progress hidden" value="0" max="100"></progress>
+
+                <button class="primary" id="add-book-submit" style="margin-top: 10px;">Add Book to Library</button>
+            </div>
+
+            <div class="admin-section">
+                <h3>Active Reservations</h3>
+                <div id="reservations-list">
+                    <p style="color: #ccc;">Loading reservations...</p>
+                </div>
+            </div>
+
+            <div class="admin-section">
+                <h3>Post New Notice</h3>
+                <input type="text" id="notice-title" placeholder="Notice Title (Optional)">
+                <textarea id="notice-content" placeholder="Notice Content" required></textarea>
+                <button class="primary" id="add-notice-submit" style="margin-top: 10px;">Post Notice</button>
+
+                <h4 style="margin-top: 20px;">Manage Active Notices</h4>
+                <div id="active-notices-list">
+                    <p style="color: #ccc;">Loading active notices...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
