@@ -68,11 +68,16 @@ body.app-root {
     line-height: 1.2; 
 }
 .header-blur {
-    background: rgba(255, 255, 255, 0.45);
+    background: linear-gradient(
+        135deg, 
+        rgba(249, 253, 12, 0) 0%, 
+        rgba(255, 94, 0, 0) 100%
+    );
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     box-shadow: var(--card-shadow);
 }
+
 /* Left block - Date section */
 .header > div:first-child { 
     display: flex;
@@ -86,23 +91,40 @@ body.app-root {
     right: 40px; 
     z-index: 10;
 }
-.day-number {
+/* Original Desktop Date/Time Styling */
+.day-number { /* Will now be hidden on mobile */
     font-family: 'Playfair Display', serif;
     font-size: 44px;
     margin: 0;
 }
-.date-text {
+.date-text { /* Will now be hidden on mobile */
     color: var(--muted);
     font-size: 13px;
     margin-top: 6px;
     line-height: 1.05;
 }
-#time-text {
+#time-text { /* Will now be hidden on mobile, unless it's the mobile-only time */
     font-size: 11px;
     color: var(--muted);
     margin-top: 2px;
     font-weight: 600;
 }
+
+/* NEW: Mobile-Specific Date/Time Container (Hidden on Desktop) */
+#mobile-date-time-line {
+  /* Prioritizes native system fonts for maximum legibility */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  
+  /* Use fixed-width digits (if supported by the font) to prevent jitter when time changes */
+  font-variant-numeric: tabular-nums; 
+  
+  /* Keep font size small but readable */
+  font-size: 14px; 
+  
+  /* Ensure a good color contrast against the header background */
+  color: var(--text-color, #333); 
+}
+
 .admin-login-btn {
     background: #111;
     color: white;
@@ -120,48 +142,55 @@ body.app-root {
         padding: 0 10px;
     }
     .header {
-        /* Change alignment to stack the date/time (first-child) and title (center-title) cleanly */
+        /* Keep column direction for stacking (Date on top, then Title) */
         flex-direction: column;
-        align-items: center; /* Center the entire stacked content */
-        padding: 15px 15px; /* Adjust padding */
-        height: auto; /* Allow height to adjust */
+        /* Align items to flex-start (left) */
+        align-items: flex-start; 
+        padding: 15px 15px; 
+        height: auto; 
     }
     
     /* FIX 1: Reposition the Admin Button to stay in the corner */
     .header-actions {
-        position: absolute; /* Changed to absolute instead of fixed */
+        position: absolute; 
         top: 15px;
         right: 15px;
         z-index: 100;
     }
-
-    /* FIX 2: Style the Date/Time Block */
-    .header > div:first-child {
-        align-items: center; /* Ensure date/time is centered */
-        margin-bottom: 20px; /* Add space below date/time before title */
-        width: 100%; /* Take full width to accommodate the large number */
-    }
     
-    /* FIX 3: Reposition and style the Center Title (Branding) */
+    /* FIX 2: Hide large desktop date/time elements and show the single line element */
+    .day-number, .date-text, #time-text {
+        display: none !important; /* Hide original elements */
+    }
+    .mobile-date-time-line {
+        /* Show the single line date/time container */
+        display: block !important;
+        margin-bottom: 5px; /* Add small space below date/time */
+    }
+
+    /* FIX 3: Style the Date/Time Block container (Top-Left) */
+    .header > div:first-child {
+        /* Reset container to normal flow and left alignment */
+        display: flex; /* Keep flex to ensure single-line is handled correctly */
+        flex-direction: column;
+        align-items: flex-start;
+        margin-bottom: 0; 
+        width: auto;
+    }
+
+    /* FIX 4: Style the Center Title (Branding) */
     #center-title {
-        /* Remove absolute positioning and translate transform to allow it to flow naturally */
         position: static; 
         transform: none; 
         text-align: center; 
         width: 100%;
-        margin-top: 0; /* Clear any residual margin */
+        margin-top: 5px; /* Small space above the title */
+        order: 1; /* Place the title *after* the date block */
     }
     .library-branding {
         font-size: 24px; 
     }
-    
-    /* Text reduction for smaller screen */
-    .day-number {
-        font-size: 32px; 
-    }
-    .date-text, #time-text {
-        font-size: 10px; 
-    }
+
     .admin-login-btn {
         padding: 6px 10px;
         font-size: 12px;
@@ -669,6 +698,11 @@ body.app-root {
 
 /* Desktop/Large Tablet View (3+ Columns) */
 @media (min-width: 768px) {
+    /* Ensure the mobile-specific element is hidden on large screens */
+    .mobile-date-time-line {
+        display: none !important;
+    }
+    
     .arrivals .card {
         /* 3 cards per row */
         flex: 0 0 calc(33.333% - 10.666px); 
