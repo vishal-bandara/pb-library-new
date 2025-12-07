@@ -755,7 +755,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
         addBook(title, author, description, file);
     });
+ // app.js
 
+/**
+ * Executes when all resources (images, scripts, CSS) have finished loading.
+ * This is perfect for the preloader, as it ensures the page is fully ready.
+ */
+window.addEventListener('load', function() {
+    // 1. Get the preloader element
+    const preloader = document.getElementById('preloader');
+
+    if (preloader) {
+        // 2. Add the class that starts the fade-out transition (opacity: 0)
+        preloader.classList.add('hidden-preloader');
+
+        // 3. Remove the preloader from the DOM after the transition finishes (0.5s)
+        // This ensures the element doesn't capture clicks even though it's invisible.
+        setTimeout(() => {
+            preloader.remove(); // Use .remove() for a cleaner approach
+        }, 500); // MUST match the CSS transition duration
+    }
+});
+
+// --- Your other main application functions would follow here ---
+// e.g., initApp();
+// e.g., function initApp() { ... }
     // 5. Delete Mode Toggle Logic
     $('#toggle-delete-mode').addEventListener('click', function() {
         const isActive = this.classList.toggle('active');
@@ -832,15 +856,38 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 8. Search Input Listener - This is where the core search function is triggered
     const searchInput = $('#search-input');
     if (searchInput) {
         searchInput.addEventListener('input', (e) => {
             // Only perform search if the 'search-view' is currently visible
             const searchView = $('#search-view');
             if (searchView && !searchView.classList.contains('hidden')) {
-                 handleSearch(e.target.value);
+                handleSearch(e.target.value);
             }
         });
+    }
+}); // <--- END OF DOMCONTENTLOADED BLOCK
+
+// ====================================================================
+// === PRELOADER HIDING LOGIC (PLACED OUTSIDE DOMContentLoaded) ===
+// ====================================================================
+
+/**
+ * Executes when all resources (images, scripts, CSS) have finished loading.
+ * This should be at the top level of the script to ensure it runs correctly.
+ */
+window.addEventListener('load', function() {
+    const preloader = document.getElementById('preloader');
+
+    // Check for Firebase initialization success before proceeding (optional, but good practice)
+    if (typeof db === 'undefined') { 
+        console.warn("Preloader hiding early due to Firebase error.");
+    }
+    
+    if (preloader) {
+        preloader.classList.add('hidden-preloader');
+        setTimeout(() => {
+            preloader.remove(); 
+        }, 500); // MUST match the CSS transition
     }
 });
