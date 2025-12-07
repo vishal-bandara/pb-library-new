@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Library App</title>
+    <title>PB-LIBRARY</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
@@ -12,7 +12,10 @@
 <body class="app-root">
 
     <div id="toast" class="toast"></div>
-
+    <div id="preloader">
+        <div class="loader"></div>
+        <p>Loading PB Library...</p> 
+    </div>
     <div class="app-wrap">
         <header class="header header-blur">
             <div>
@@ -24,6 +27,7 @@
             </div>
 
             <div id="center-title">
+                <img src="logo.png" alt="Library Logo" id="library-logo">
                 <h1 class="library-branding">PEOPLE'S BANK<br>LIBRARY</h1>
             </div>
 
@@ -168,6 +172,9 @@
                 <div id="active-notices-list">
                     <p style="color: #ccc;">Loading active notices...</p>
                 </div>
+    
+    <div class="app-root">
+        </div>
             </div>
         </div>
     </div>
