@@ -15,7 +15,7 @@ const ASSETS = [
     '/',
     '/index.html',
     '/style.css',
-    '/app.js', // This should be app.js if that's the main script name
+    '/script.js', // This should be app.js if that's the main script name
     '/manifest.json',
     '/icons/icon-192.png',
     '/icons/icon-512.png'
