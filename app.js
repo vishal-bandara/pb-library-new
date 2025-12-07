@@ -62,12 +62,27 @@ const ADMIN_PASSWORD = "admin";
 // --- Time and Date Helpers ---
 function updateTimeAndDate() {
     const now = new Date();
+
+    // 1. Desktop elements
     const optionsDate = { weekday: 'long', year: 'numeric', month: 'long' };
     const optionsTime = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
 
     if ($('#date-text')) $('#date-text').textContent = now.toLocaleDateString('en-US', optionsDate);
-    if ($('#day-number')) $('#day-number').textContent = now.getDate();
+    if ($('#day-number')) $('#day-number').textContent = now.getDate().toString().padStart(2, '0'); // Ensures DD format
     if ($('#time-text')) $('#time-text').textContent = now.toLocaleTimeString('en-US', optionsTime);
+
+    // 2. NEW: Mobile Single-Line Date/Time (dd/mm/yyyy | hh:mm AM/PM)
+    const mobileDateTimeElement = $('#mobile-date-time-line');
+    if (mobileDateTimeElement) {
+        // Date part: dd/mm/yyyy
+        const datePart = now.toLocaleDateString('en-GB'); // 'en-GB' format gives dd/mm/yyyy
+
+        // Time part: hh:mm AM/PM (short format)
+        const optionsCompactTime = { hour: '2-digit', minute: '2-digit', hour12: true };
+        const timePart = now.toLocaleTimeString('en-US', optionsCompactTime);
+        
+        mobileDateTimeElement.textContent = `${datePart} | ${timePart}`;
+    }
 }
 
 // ------------------------------------------------------------------
