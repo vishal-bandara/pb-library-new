@@ -93,25 +93,25 @@ function updateTimeAndDate() {
 // --- FIREBASE DATA FUNCTIONS ---
 // ------------------------------------------------------------------
 
-function setupBooksListener() { ... } // (kept unchanged)
-function setupNoticesListener() { ... } // (kept unchanged)
-async function addBook(title, author, description, file) { ... } // (kept unchanged)
-async function saveBookToFirestore(title, author, description, coverUrl) { ... } // (kept unchanged)
-async function deleteBook(bookId, title) { ... } // (kept unchanged)
-async function reserveBook(bookId, name, contact, bookTitle) { ... } // (kept unchanged)
-async function releaseReservation(bookId, title) { ... } // (kept unchanged)
-async function addNotice(title, content) { ... } // (kept unchanged)
-async function deleteNotice(noticeId) { ... } // (kept unchanged)
-function handleSearch(query) { ... } // (kept unchanged)
-function renderBookCards(books, containerId) { ... } // (kept unchanged)
-function renderAdminPanelReservations() { ... } // (kept unchanged)
-function renderAdminNoticesList() { ... } // (kept unchanged)
-function renderPublicNotices() { ... } // (kept unchanged)
-function showReserveFormModal(book) { ... } // (kept unchanged)
-function showBookDetailModal(book) { ... } // (kept unchanged)
-function showToast(msg) { ... } // (kept unchanged)
-function showAdminPanelReturnToast(msg) { ... } // (kept unchanged)
-function switchView(viewName) { ... } // (kept unchanged)
+function setupBooksListener() { }
+function setupNoticesListener() { }
+async function addBook(title, author, description, file) { }
+async function saveBookToFirestore(title, author, description, coverUrl) { }
+async function deleteBook(bookId, title) { }
+async function reserveBook(bookId, name, contact, bookTitle) { }
+async function releaseReservation(bookId, title) { }
+async function addNotice(title, content) { }
+async function deleteNotice(noticeId) { }
+function handleSearch(query) { }
+function renderBookCards(books, containerId) { }
+function renderAdminPanelReservations() { }
+function renderAdminNoticesList() { }
+function renderPublicNotices() { }
+function showReserveFormModal(book) { }
+function showBookDetailModal(book) { }
+function showToast(msg) { }
+function showAdminPanelReturnToast(msg) { }
+function switchView(viewName) { }
 
 // ✅ ONE SIGNAL INTEGRATION: Function to open notice panel
 function openNoticePanel() {
