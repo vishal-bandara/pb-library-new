@@ -95,7 +95,7 @@ body.app-root {
 #library-logo {
     height: 80px; /* Adjust height as needed */
     width: auto;
-    margin-right: 24px; /* Space between logo and text */
+    margin-right: 5px; /* Space between logo and text */
     
     /* Ensure the logo color matches if it's monochromatic */
     /* filter: brightness(0); /* Uncomment if your logo is black and you want to ensure it is the same color as the text */
@@ -265,7 +265,7 @@ body.app-root {
    @media (max-width: 600px) {
     #library-logo {
         height: 60px; /* Smaller logo for mobile */
-        margin-right: 16px;
+        margin-right: 5px;
     }
     }
     .library-branding {
