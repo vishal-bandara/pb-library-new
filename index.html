@@ -188,14 +188,13 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging-sw.js"></script>
     <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-    <script>
+   <script>
 window.OneSignalDeferred = window.OneSignalDeferred || [];
 OneSignalDeferred.push(async function(OneSignal) {
   await OneSignal.init({
     appId: "14a3215a-7f24-4061-bcab-05220852e609",
     safari_web_id: "web.onesignal.auto.32f1a686-ea76-4ac6-93be-f9d8958aaa5a",
-    
-    // 🔥 IMPORTANT FOR GITHUB PAGES SUBFOLDER
+    // IMPORTANT for GitHub Pages subpath
     serviceWorkerPath: "pb-library-new/OneSignalSDKWorker.js",
     serviceWorkerUpdaterPath: "pb-library-new/OneSignalSDKUpdaterWorker.js",
     serviceWorkerParam: { scope: "/pb-library-new/" },
