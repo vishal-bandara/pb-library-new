@@ -209,15 +209,15 @@ body.app-root {
     margin: 0;
 }
 .date-text { /* Will now be hidden on mobile */
-    color: var(--muted);
+    color: rgba(0, 0, 0, 0.544);
     font-size: 13px;
-    margin-top: 6px;
+    margin-top: 0px;
     line-height: 1.05;
 }
 #time-text { /* Will now be hidden on mobile, unless it's the mobile-only time */
     font-size: 11px;
-    color: var(--muted);
-    margin-top: 2px;
+    color: rgba(0, 0, 0, 0.662);
+    margin-top: -8px;
     font-weight: 600;
 }
 
@@ -256,7 +256,7 @@ body.app-root {
 }
 
 /* === RESPONSIVENESS: HEADER (Mobile Layout FIX) === */
-@media (max-width: 600px) {
+@media (max-width: 767px) {
     .app-wrap {
         margin: 10px auto;
         padding: 0 10px;
@@ -348,7 +348,7 @@ body.app-root {
     margin-bottom: 12px;
 }
 .section-title {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Roboto', serif;
     font-size: 22px;
     margin: 0;
 }
@@ -838,7 +838,7 @@ body.app-root {
 /* Responsive Grid Adjustments */
 
 /* Tablet View (2 Columns) */
-@media (min-width: 0px) and (max-width: 600px) {
+@media (min-width: 0px) and (max-width: 767px) {
     .arrivals .card {
         /* 2 cards per row, switch to vertical stacking */
         flex: 0 0 calc(50% - 8px); 
