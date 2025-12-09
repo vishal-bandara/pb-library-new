@@ -422,20 +422,63 @@ body.app-root {
 }
 .reserved-overlay {
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-15deg);
+
+    width: 135px;
+    height: 135px;
+    border-radius: 50%;
+    
+    border: 4px solid #ffffff;
+    outline: 3px dashed #ffffff;
+    color: #e8e8e8;
+
+    font-size: 1.1rem;
+    font-weight: 900;
+    text-align: center;
+    letter-spacing: 2px;
+
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(232, 93, 63, 0.85); 
-    color: white;
-    font-weight: 900;
-    font-size: 1.2rem;
-    letter-spacing: 2px;
-    z-index: 5;
-    transform: rotate(-10deg);
+
+    background: rgb(0, 0, 0);
+
+    /* Glow and blur around the seal */
+    box-shadow: 
+        0 0 5px #ffffff,         /* subtle outer glow */
+        inset 0 0 8px #ffffff,   /* inner glow */
+        0 0 100px 8px rgba(255,255,255,0.3); /* soft blur around seal */
+
+    opacity: 0.9;
+    overflow: hidden;   /* keeps shimmer inside circle */
+}
+
+/* ✨ Subtle Diagonal Shimmer */
+.reserved-overlay::after {
+    content: "";
+    position: absolute;
+    top: 0;               /* corrected from -5 */
+    left: -100%;    
+    width: 25%;           /* narrow streak as in your original */
+    height: 200%;         /* tall streak */
+
+    background: linear-gradient(
+        120deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.359) 50%,
+        transparent 100%
+    );
+
+    animation: shimmer 2s infinite linear;
+    border-radius: 50%;   /* matches circular seal */
+}
+
+/* Shimmer Keyframes */
+@keyframes shimmer {
+    0% { left: -150%; }
+    100% { left: 150%; }
 }
 
 /* FIX: Mobile Cover Styling */
