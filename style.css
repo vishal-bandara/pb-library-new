@@ -348,7 +348,7 @@ body.app-root {
     margin-bottom: 12px;
 }
 .section-title {
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
     font-size: 22px;
     margin: 0;
 }
