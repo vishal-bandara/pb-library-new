@@ -96,7 +96,7 @@ body.app-root {
 /* Header */
 .header {
     position: fixed; /* Keep it on top */
-    top: 5px;
+    top: 8px;
     left: 50%;
     transform: translateX(-50%);
     border-radius: 14px;
@@ -348,6 +348,7 @@ body.app-root {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 12px;
+    margin-top: 60px;
 }
 .section-title {
     font-family: 'Roboto', sans-serif;
