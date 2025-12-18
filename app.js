@@ -323,17 +323,64 @@ async function deleteNotice(noticeId) {
 }
 
 // ------------------------------------------------------------------
-// --- CORE FUNCTIONALITY: SEARCH (UPDATED) ---
+// --- VOICE SEARCH SETUP ---
 // ------------------------------------------------------------------
 
-/**
- * Filters MOCK_BOOKS based on the search query (case-insensitive title or author).
- * Renders the filtered list into the search results container.
- * @param {string} query The search string.
- */
+function setupVoiceSearch() {
+    const searchInput = document.getElementById('search-input');
+    const voiceBtn = document.getElementById('voice-btn');
+    const langSelect = document.getElementById('voice-lang'); 
+
+    // Check browser support
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+    if (SpeechRecognition && voiceBtn && langSelect) {
+        const recognition = new SpeechRecognition();
+        
+        recognition.continuous = false;
+
+        // START LISTENING
+        voiceBtn.addEventListener('click', () => {
+            // Get language from dropdown (Default to Sinhala if missing)
+            recognition.lang = langSelect.value || 'si-LK'; 
+            recognition.start();
+        });
+
+        // VISUAL FEEDBACK
+        recognition.onstart = () => {
+            voiceBtn.style.transform = "scale(1.2)";
+            searchInput.placeholder = (recognition.lang === 'si-LK') ? "කතා කරන්න..." : "Listening...";
+        };
+
+        recognition.onend = () => {
+            voiceBtn.style.transform = "scale(1)";
+            searchInput.placeholder = "Search by title or author...";
+        };
+
+        // HANDLING RESULTS
+        recognition.onresult = (event) => {
+            const transcript = event.results[0][0].transcript;
+            
+            // 1. Show text in box
+            searchInput.value = transcript;
+            
+            // 2. Run Search
+            handleSearch(transcript);
+        };
+
+    } else {
+        console.warn("Voice search failed: Browser not supported or elements missing.");
+        if(voiceBtn) voiceBtn.style.display = 'none';
+    }
+}
+
+// ------------------------------------------------------------------
+// --- SEARCH LOGIC (FIXED) ---
+// ------------------------------------------------------------------
+
 function handleSearch(query) {
-    const trimmedQuery = query.trim().toLowerCase();
-    const resultsContainerId = 'search-results-list'; // The new container ID from HTML
+    const trimmedQuery = query.toLowerCase().replace(/\.$/, "").trim();
+    const resultsContainerId = 'search-results-list';
 
     if (trimmedQuery.length > 0) {
         const filteredBooks = MOCK_BOOKS.filter(book => {
@@ -342,10 +389,17 @@ function handleSearch(query) {
             return titleMatch || authorMatch;
         });
         
-        renderBookCards(filteredBooks, resultsContainerId);
+        // Ensure renderBookCards is defined in your code!
+        if (typeof renderBookCards === "function") {
+            renderBookCards(filteredBooks, resultsContainerId);
+        }
+        
     } else {
-        // If query is empty, clear the search results container and show a placeholder message
-        const container = $(`#${resultsContainerId}`);
+        // --- THE FIX IS HERE ---
+        // Old code: const container = $(`#${resultsContainerId}`);  <-- CAUSED CRASH
+        // New code:
+        const container = document.getElementById(resultsContainerId);
+        
         if (container) {
             container.innerHTML = `
                 <p style="text-align: center; color: var(--muted); padding: 20px;">
@@ -356,6 +410,14 @@ function handleSearch(query) {
     }
 }
 
+// ------------------------------------------------------------------
+// --- INITIALIZATION (CRITICAL STEP) ---
+// ------------------------------------------------------------------
+
+// You must call this so the button actually starts working!
+document.addEventListener('DOMContentLoaded', () => {
+    setupVoiceSearch();
+});
 
 // ------------------------------------------------------------------
 // --- UI Rendering Functions (REFACTORED) ---
