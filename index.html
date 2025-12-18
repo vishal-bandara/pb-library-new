@@ -69,19 +69,33 @@
             </section>
 
             <section id="search-view" class="main-view hidden">
-                <div class="section-head">
-                    <h2 class="section-title style="font-family: Arial;">Search & Explore</h2>
-                </div>
-                
-                <input type="text" id="search-input" placeholder="Search by title or author..."
-                        style="width: 100%; padding: 10px; margin-bottom: 20px; border-radius: 5px; border: 1px solid var(--muted); font-size: 16px;">
-                
-                <div class="arrivals" id="search-results-list">
-                    <p style="text-align: center; color: var(--muted); padding: 20px;">
-                     Search New  Arrivels.
-                    </p>
-                </div>
-            </section>
+    <div class="section-head">
+        <h2 class="section-title" style="font-family: Arial;">Search & Explore</h2>
+    </div>
+
+    <div class="search-wrapper" style="position: relative; width: 100%; margin-bottom: 20px; display: flex; align-items: center;">
+        
+        <input type="text" id="search-input" placeholder="Search by title or author..."
+            oninput="handleSearch(this.value)"
+            style="width: 100%; padding: 10px 90px 10px 10px; border-radius: 5px; border: 1px solid var(--muted); font-size: 16px;">
+            <div style="position: absolute; right: 5px; top: 50%; transform: translateY(-50%); display: flex; align-items: center; gap: 5px;">
+            
+            <select id="voice-lang" style="border: none; background: #f0f0f0; border-radius: 4px; padding: 5px; font-size: 12px; cursor: pointer;">
+                <option value="si-LK">SI</option> <option value="en-US">EN</option> </select>
+
+            <button id="voice-btn" title="Search by Voice"
+                style="background: none; border: none; cursor: pointer; font-size: 18px;">
+                🎤
+            </button>
+        </div>
+
+    </div>
+    <div class="arrivals" id="search-results-list">
+        <p style="text-align: center; color: var(--muted); padding: 20px;">
+            Search New Arrivals.
+        </p>
+    </div>
+</section>
             <section id="notices-view" class="main-view hidden">
                 <div class="section-head">
                     <h2 class="section-title style="font-family: Arial;">Library Notices</h2>
