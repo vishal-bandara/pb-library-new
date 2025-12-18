@@ -93,6 +93,66 @@ body.app-root {
     box-sizing: border-box;
 }
 
+
+/* --- PREMIUM SNOWFLAKE ANIMATION --- */
+
+.snowflakes {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2; /* Sits above background but below your text/cards */
+  pointer-events: none; /* Allows clicking through the snow */
+}
+
+.snowflake {
+  color: #fff;
+  font-size: 1.2em;
+  font-family: Arial, sans-serif;
+  text-shadow: 0 0 5px rgba(255,255,255,0.8);
+  position: fixed;
+  top: -10%;
+  z-index: 9999;
+  user-select: none;
+  cursor: default;
+  animation-name: snowflakes-fall, snowflakes-shake;
+  animation-duration: 10s, 3s;
+  animation-timing-function: linear, ease-in-out;
+  animation-iteration-count: infinite, infinite;
+  animation-play-state: running;
+}
+
+/* Individual Snowflake Timing & Positioning */
+.snowflake:nth-of-type(1) { left: 1%;  animation-delay: 0s, 0s; }
+.snowflake:nth-of-type(2) { left: 10%; animation-delay: 1s, 1s; font-size: 2em; opacity: 0.4; filter: blur(1px); }
+.snowflake:nth-of-type(3) { left: 20%; animation-delay: 6s, 0.5s; }
+.snowflake:nth-of-type(4) { left: 30%; animation-delay: 4s, 2s; font-size: 1.5em; }
+.snowflake:nth-of-type(5) { left: 40%; animation-delay: 2s, 1s; }
+.snowflake:nth-of-type(6) { left: 50%; animation-delay: 8s, 3s; opacity: 0.6; }
+.snowflake:nth-of-type(7) { left: 60%; animation-delay: 6s, 2s; font-size: 2.5em; filter: blur(2px); opacity: 0.3; }
+.snowflake:nth-of-type(8) { left: 70%; animation-delay: 10s, 1s; }
+.snowflake:nth-of-type(9) { left: 80%; animation-delay: 1s, 0s; }
+.snowflake:nth-of-type(10){ left: 90%; animation-delay: 3s, 1.5s; }
+
+/* Vertical Movement */
+@keyframes snowflakes-fall {
+  0% { top: -10%; }
+  100% { top: 100%; }
+}
+
+/* Horizontal Swaying */
+@keyframes snowflakes-shake {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(80px); }
+}
+
+/* Optimization for Mobile (fewer sways) */
+@media (max-width: 600px) {
+    .snowflake:nth-of-type(even) {
+        display: none; /* Reduce density on small screens for performance */
+    }
+}
 /* Header */
 .header {
     position: fixed; /* Keep it on top */
@@ -102,7 +162,7 @@ body.app-root {
     border-radius: 14px;
     width: 95%;
     max-width: 1100px;
-    z-index: 999;
+    z-index: 100;
     background: rgba(0,0,0,0.05); /* optional: slight transparency */
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
@@ -209,18 +269,21 @@ body.app-root {
     font-family: 'Playfair Display', serif;
     font-size: 44px;
     margin: 0;
+    visibility: hidden;
 }
 .date-text { /* Will now be hidden on mobile */
     color: rgba(0, 0, 0, 0.544);
     font-size: 13px;
     margin-top: 0px;
     line-height: 1.05;
+    visibility: hidden;
 }
 #time-text { /* Will now be hidden on mobile, unless it's the mobile-only time */
     font-size: 11px;
     color: rgba(0, 0, 0, 0.662);
     margin-top: -8px;
     font-weight: 600;
+    visibility: hidden;
 }
 
 /* NEW: Mobile-Specific Date/Time Container (Hidden on Desktop) */
@@ -334,7 +397,22 @@ body.app-root {
     }
 }
 /* ============================================== */
+#search-input {
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 25px; /* Pill shape */
+    padding: 12px 20px;
+    color: white;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
+}
 
+#search-input:focus {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: var(--accent);
+    box-shadow: 0 0 15px rgba(232, 94, 63, 0.3);
+}
 
 /* Main Area */
 .main {
@@ -351,10 +429,22 @@ body.app-root {
     margin-top: 93px;
 }
 .section-title {
+    position: relative;
     font-family: 'Roboto', sans-serif;
     color: #eee;
     font-size: 22px;
     margin: 0;
+    padding-bottom: 8px;
+}
+.section-title::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 40px;
+    height: 3px;
+    background: var(--accent);
+    border-radius: 2px;
 }
 /* FIX: Reduce section title size on small screens */
 @media (max-width: 600px) {
@@ -391,6 +481,7 @@ body.app-root {
     gap: 16px;
     justify-content: flex-start;
 }
+
 .arrivals .card {
     /* DEFAULT MOBILE: SINGLE COLUMN (horizontal layout) */
     flex: 0 0 100%; 
@@ -417,12 +508,23 @@ body.app-root {
     transform: translateY(-8px) scale(1.01);
     box-shadow: 0 18px 40px rgba(0,0,0,0.12);
 }
+.arrivals .card:hover {
+    transform: translateY(-8px) scale(1.02);
+    /* Intensify the frost on hover */
+    box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.15),
+        inset 0 0 40px rgba(240, 255, 24, 0.832);
+}
 
+.arrivals .card:hover .cover {
+    filter: contrast(1.1) brightness(1.1) saturate(0.8); /* Desaturate for a cold look */
+}
 /* Reserved Status */
 .card.reserved {
     opacity: 0.6;
     pointer-events: none; 
 }
+
 .reserved-overlay {
     position: absolute;
     top: 40%;
@@ -497,6 +599,14 @@ body.app-root {
     transition: transform 420ms cubic-bezier(.2,.9,.2,1), box-shadow 420ms ease;
 }
 .card .cover:hover { transform: scale(1.03); }
+.card .cover::after {
+    content: "";
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 8px; /* The spine */
+    background: linear-gradient(90deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0) 100%);
+    border-radius: 6px 0 0 6px;
+}
 .card .meta {
     padding: 0; 
     flex-grow: 1;
@@ -551,16 +661,15 @@ body.app-root {
 }
 
 /* Loading Placeholder */
-.loading-placeholder {
-    display: flex;
-    gap: 12px;
-    width: 100%;
+@keyframes pulse {
+    0% { opacity: 0.5; }
+    50% { opacity: 1; }
+    100% { opacity: 0.5; }
 }
+
 .ph-card {
-    flex: 1 1 0; 
-    height: 120px; 
-    background: linear-gradient(90deg, #eee, #f5f5f5);
-    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    animation: pulse 1.5s infinite ease-in-out;
 }
 
 /* Bottom Navigation */
@@ -716,16 +825,44 @@ body.app-root {
 
 /* Book Detail Panel Specifics */
 .book-detail-panel {
+    position: relative;
+    z-index: 200;
+    margin:100px auto 20px auto; /* Centered horizontally */
     max-width: 600px;
+    
+    /* --- SCROLL LOGIC ADDED HERE --- */
+    max-height: 80vh;            /* Prevents panel from going off-screen */
+    overflow-y: auto;            /* Enables vertical scrolling */
+    overflow-x: hidden;          /* Prevents accidental horizontal shift */
+    
     background: linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    backdrop-filter: blur(10px); /* Optional: adds a nice glass effect */
     padding: 40px;
+    border-radius: 15px;
     transition: transform 360ms cubic-bezier(.2,.9,.2,1), box-shadow 360ms ease;
     animation: fadeUp 560ms cubic-bezier(.2,.9,.2,1) both;
 }
+
+/* Custom Scrollbar Styling (Optional but recommended) */
+.book-detail-panel::-webkit-scrollbar {
+    width: 6px;
+}
+.book-detail-panel::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+}
+.book-detail-panel::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+}
+
 .book-details-content {
     display: flex;
     gap: 30px;
+    position: relative;
+    margin-top:50px;
+    z-index: 10;
 }
+
 .book-cover-display {
     flex-shrink: 0;
     width: 180px;
@@ -737,22 +874,29 @@ body.app-root {
     transform-origin: center center;
     transition: transform 360ms cubic-bezier(.2,.9,.2,1);
 }
-.book-cover-display:hover { transform: translateY(-6px) scale(1.02); }
+
+.book-cover-display:hover { 
+    transform: translateY(-6px) scale(1.02); 
+}
+
 .book-info h3 {
     margin-top: 0;
     font-size: 28px;
     font-family: 'Playfair Display', serif;
 }
+
 .author-text {
     color: var(--accent);
     font-style: italic;
     margin-bottom: 15px;
 }
+
 .description-text {
     margin-bottom: 20px;
     font-size: 14px;
-    line-height: 1.5;
+    line-height: 1.6;
 }
+
 .reserved-status-text {
     color: #ffcc00; 
     font-weight: 600;
@@ -762,15 +906,17 @@ body.app-root {
 @media (max-width: 600px) {
     .book-detail-panel {
         padding: 20px;
+        margin: 20px auto;
+        max-height: 70vh; /* Shorter height for mobile screens */
     }
     .book-details-content {
-        flex-direction: column; /* Stack cover and info vertically */
+        flex-direction: column; 
         align-items: center;
         text-align: center;
         gap: 15px;
     }
     .book-cover-display {
-        width: 120px; /* Smaller cover on mobile */
+        width: 140px; 
         height: 180px;
     }
     .book-info h3 {
@@ -785,6 +931,7 @@ body.app-root {
     position: fixed;
     inset: 0;
     background: transparent; 
+    margin-top:60px;
     z-index: 85;
     display: flex;
     align-items: flex-start;
@@ -809,6 +956,9 @@ body.app-root {
     overflow-y: auto;
     transform-origin: top center;
     animation: fadeDown 520ms cubic-bezier(.2,.9,.2,1) both;
+}
+#admin-logout {
+    width: 150px; /* Adjust pixels as needed */
 }
 /* Admin Panel Sections */
 .admin-section {
