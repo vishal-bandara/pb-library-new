@@ -349,7 +349,7 @@ function handleSearch(query) {
         if (container) {
             container.innerHTML = `
                 <p style="text-align: center; color: var(--muted); padding: 20px;">
-                    Start typing above to search the library catalogue.
+                    Search New Arrivals.
                 </p>
             `;
         }
